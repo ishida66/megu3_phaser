@@ -1,0 +1,83 @@
+{
+  "description": "Coordinates in game canvas pixels; x/y are top-left for hotspots and center for Gym buttons.",
+  "buttons": {
+    "food": {
+      "x": 68,
+      "y": 143,
+      "width": 85,
+      "height": 85
+    },
+    "bath": {
+      "x": 208,
+      "y": 143,
+      "width": 85,
+      "height": 85
+    },
+    "clean": {
+      "x": 348,
+      "y": 143,
+      "width": 85,
+      "height": 85
+    },
+    "background": {
+      "x": 488,
+      "y": 143,
+      "width": 85,
+      "height": 85
+    },
+    "furniture": {
+      "x": 68,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "editFurniture": {
+      "x": 208,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "clearFurniture": {
+      "x": 348,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "accessory": {
+      "x": 488,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "jukebox": {
+      "x": 68,
+      "y": 404,
+      "width": 85,
+      "height": 85
+    },
+    "messageBoard": {
+      "x": 208,
+      "y": 404,
+      "width": 85,
+      "height": 85
+    },
+    "layoutSave": {
+      "x": 348,
+      "y": 404,
+      "width": 85,
+      "height": 85
+    },
+    "layoutLoad": {
+      "x": 488,
+      "y": 404,
+      "width": 85,
+      "height": 85
+    },
+    "close": {
+      "x": 474,
+      "y": 690,
+      "width": 98,
+      "height": 74
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "description": "Take Photo controls. Button x/y are CENTER coordinates. hitboxX/Y are TOP-LEFT coordinates when supplied; width/height are visual dimensions. All values are pixels.",
+  "buttons": {
+    "exit": {
+      "x": 70,
+      "y": 24,
+      "width": 92,
+      "height": 48
+    },
+    "switch_camera": {
+      "x": 541,
+      "y": 24,
+      "width": 150,
+      "height": 48
+    },
+    "take_photo": {
+      "x": 170,
+      "width": 132,
+      "height": 48
+    },
+    "record": {
+      "x": 332,
+      "width": 160,
+      "height": 48
+    }
+  }
+}

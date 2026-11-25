@@ -1,0 +1,29 @@
+{
+  "description": "Branch evolution selection buttons. X positions are local to the left edge of the 600x526 background (20px from the canvas left); Y positions remain canvas coordinates.",
+  "buttons": {
+    "option_a": {
+      "x": 160,
+      "y": 282,
+      "width": 256,
+      "height": 260
+    },
+    "option_b": {
+      "x": 440,
+      "y": 282,
+      "width": 256,
+      "height": 260
+    },
+    "confirm": {
+      "x": 258,
+      "y": 520,
+      "width": 60,
+      "height": 49
+    },
+    "cancel": {
+      "x": 340,
+      "y": 520,
+      "width": 60,
+      "height": 49
+    }
+  }
+}

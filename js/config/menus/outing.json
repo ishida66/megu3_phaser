@@ -1,0 +1,71 @@
+{
+  "description": "Coordinates in game canvas pixels; x/y are top-left for hotspots and center for Gym buttons.",
+  "buttons": {
+    "sumo": {
+      "x": 68,
+      "y": 144,
+      "width": 85,
+      "height": 85
+    },
+    "jockey": {
+      "x": 208,
+      "y": 144,
+      "width": 85,
+      "height": 85
+    },
+    "ball_toss": {
+      "x": 348,
+      "y": 144,
+      "width": 85,
+      "height": 85
+    },
+    "jump_rope": {
+      "x": 487,
+      "y": 144,
+      "width": 85,
+      "height": 85
+    },
+    "adventure": {
+      "x": 68,
+      "y": 275,
+      "width": 85,
+      "height": 85
+    },
+    "walk": {
+      "x": 208,
+      "y": 275,
+      "width": 85,
+      "height": 85
+    },
+    "photo": {
+      "x": 348,
+      "y": 275,
+      "width": 85,
+      "height": 85
+    },
+    "invite_friend": {
+      "x": 487,
+      "y": 275,
+      "width": 85,
+      "height": 85
+    },
+    "visit_friend": {
+      "x": 68,
+      "y": 405,
+      "width": 85,
+      "height": 85
+    },
+    "gym": {
+      "x": 208,
+      "y": 405,
+      "width": 85,
+      "height": 85
+    },
+    "close": {
+      "x": 474,
+      "y": 690,
+      "width": 98,
+      "height": 74
+    }
+  }
+}

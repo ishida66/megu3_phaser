@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- HTML revalidation hints; configure Cache-Control headers on the host too. -->
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="assets/icon/favicon.ico" type="image/x-icon">
+<title>Kawaii Pet MEGU!</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+<style>
+:root{--bg:#e9edf5;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10131c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10131c;color-scheme:dark}
+html,body{height:100%;margin:0;background:var(--bg)}
+#game{width:100%;height:100%}
+canvas{display:block;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#initial-splash-screen{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#1f2a44;opacity:1;transition:opacity .16s ease}
+#initial-splash-screen.is-hiding{opacity:0;pointer-events:none}
+#initial-splash-screen img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;user-select:none;-webkit-user-drag:none}
+#initial-splash-image[hidden]{display:none}
+#initial-splash-fallback{color:#fff;font:600 18px sans-serif;letter-spacing:.12em}
+#initial-splash-fallback[hidden]{display:none}
+#initial-splash-status{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);max-width:calc(100% - 32px);padding:9px 14px;border-radius:8px;background:rgba(0,0,0,.58);color:#fff;font:600 13px/1.4 Arial,sans-serif;text-align:center}
+#initial-splash-status[hidden]{display:none}
+
+/* Development indicator intentionally hidden from the game UI. */
+#megu-dev-badge{display:none!important}
+#megu-account-bar{display:none!important}#megu-account-bar button{display:none!important}
+#megu-auth-screen{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:18px;background-color:#1f2a44;background-image:url('assets/menus/splash_login.png');background-position:center;background-repeat:no-repeat;background-size:contain;font-family:Arial,sans-serif;color:#253047}
+#megu-auth-screen[hidden]{display:none}#megu-auth-card{box-sizing:border-box;width:min(100%,390px);padding:26px;border-radius:16px;background:#fff;box-shadow:0 16px 60px #0006}
+#megu-auth-title{font-size:25px;font-weight:800;text-align:center;color:#293b60}#megu-auth-subtitle{text-align:center;margin:8px 0 20px;color:#69758a;font-size:13px}
+#megu-auth-tabs{display:flex;gap:8px;margin-bottom:18px}#megu-auth-tabs button{flex:1;border:1px solid #d7dce5;border-radius:8px;padding:10px;background:#f5f6f9;color:#43506a;font-weight:700;cursor:pointer}
+#megu-auth-tabs button.active{background:#354b73;color:#fff;border-color:#354b73}#megu-auth-form{display:flex;flex-direction:column;gap:8px}
+#megu-auth-form label{font-size:12px;font-weight:700;color:#47536a;margin-top:5px}#megu-auth-form input{box-sizing:border-box;width:100%;border:1px solid #ccd3df;border-radius:8px;padding:11px 12px;font-size:16px;color:#202b40;background:#fff}
+#megu-auth-submit{margin-top:12px;border:0;border-radius:8px;padding:12px;background:#e8b94e;color:#3a2d14;font-size:15px;font-weight:800;cursor:pointer}
+#megu-auth-message{min-height:20px;margin-top:12px;text-align:center;font-size:13px;color:#a13b32}#megu-auth-footnote{margin-top:10px;text-align:center;color:#8790a0;font-size:11px;line-height:1.4}
+
+
+#megu-namechange-screen{position:fixed;inset:0;z-index:100001;display:flex;align-items:center;justify-content:center;padding:18px;background:#101827aa;font-family:Arial,sans-serif;color:#253047}
+#megu-namechange-screen[hidden]{display:none}
+#megu-namechange-card{box-sizing:border-box;width:min(100%,380px);padding:24px;border-radius:16px;background:#fff;box-shadow:0 16px 60px #0006}
+#megu-namechange-card h2{margin:0 0 18px;font-size:22px;text-align:center}
+#megu-namechange-card label{display:block;margin:12px 0 5px;font-weight:700;font-size:13px}
+#megu-namechange-card input{box-sizing:border-box;width:100%;padding:11px 12px;border:1px solid #ccd3df;border-radius:8px;font-size:16px;color:#202b40;background:#fff}
+#megu-namechange-actions{display:flex;gap:10px;margin-top:20px}
+#megu-namechange-actions button{flex:1;border:0;border-radius:8px;padding:12px;font-weight:800;cursor:pointer}
+#megu-namechange-confirm{background:#e8b94e;color:#3a2d14}#megu-namechange-cancel{background:#e7eaf0;color:#354052}
+#megu-namechange-message{min-height:18px;margin-top:10px;font-size:12px;color:#a13b32;text-align:center}
+
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div id="megu-account-bar" hidden><span id="megu-account-label"></span><button id="megu-logout-button" type="button">Log out</button></div>
+<input id="megu-backup-file" type="file" accept=".json,application/json" hidden>
+<div id="megu-namechange-screen" hidden role="dialog" aria-modal="true" aria-labelledby="megu-namechange-title">
+  <div id="megu-namechange-card">
+    <h2 id="megu-namechange-title">Rename</h2>
+    <label for="megu-new-username">User name</label>
+    <input id="megu-new-username" maxlength="24" autocomplete="off">
+    <label for="megu-new-petname">Pet name</label>
+    <input id="megu-new-petname" maxlength="32" autocomplete="off">
+    <label for="megu-new-personal-message">Personal message</label>
+    <input id="megu-new-personal-message" maxlength="120" autocomplete="off" placeholder="Enter a personal message">
+    <div id="megu-namechange-actions"><button id="megu-namechange-cancel" type="button">CANCEL</button><button id="megu-namechange-confirm" type="button">CONFIRM</button></div>
+    <div id="megu-namechange-message" role="status"></div>
+  </div>
+</div>
+<div id="megu-auth-screen" role="dialog" aria-modal="true" aria-labelledby="megu-auth-title">
+  <div id="megu-auth-card">
+    <div id="megu-auth-title">Kawaii Pet MEGU!</div>
+    <div id="megu-auth-subtitle">Sign in or create your MEGU account</div>
+    <div id="megu-auth-tabs"><button id="megu-login-tab" class="active" type="button">Log in</button><button id="megu-register-tab" type="button">Create account</button></div>
+    <form id="megu-auth-form">
+      <label for="megu-username">Username</label><input id="megu-username" name="username" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" required>
+      <label id="megu-petname-label" for="megu-petname" hidden>MEGU name</label><input id="megu-petname" name="petname" maxlength="32" autocomplete="off" hidden>
+      <label for="megu-password">Password</label><input id="megu-password" name="password" type="password" autocomplete="current-password" minlength="6" required>
+      <button id="megu-auth-submit" type="submit">Log in</button>
+    </form>
+    <div id="megu-auth-message" role="status"></div>
+    <div id="megu-auth-footnote">Username: 3–24 letters, numbers, or underscores. No email address required.</div>
+  </div>
+</div>
+
+
+<div id="initial-splash-screen" role="status" aria-label="Loading game">
+  <img id="initial-splash-image" src="assets/menus/splash_screen.png" alt="" draggable="false">
+  <span id="initial-splash-fallback" hidden>LOADING</span>
+  <div id="initial-splash-status" hidden aria-live="polite"></div>
+</div>
+<script>
+// Keep the splash visible until both its image and the game's initial scene/load batch are ready.
+window.__meguSplashGate = (() => {
+  const root = document.getElementById('initial-splash-screen');
+  const image = document.getElementById('initial-splash-image');
+  const fallback = document.getElementById('initial-splash-fallback');
+  let imageSettled = false;
+  let gameReady = false;
+  let removed = false;
+  const tryRemove = () => {
+    if (removed || !imageSettled || !gameReady || !root) return;
+    removed = true;
+    root.classList.add('is-hiding');
+    window.setTimeout(() => { if (root.isConnected) root.remove(); }, 180);
+  };
+  const settleImage = success => {
+    if (imageSettled) return;
+    imageSettled = true;
+    if (!success) {
+      if (image) image.hidden = true;
+      if (fallback) fallback.hidden = false;
+    }
+    tryRemove();
+  };
+  if (image) {
+    image.addEventListener('load', () => settleImage(true), { once: true });
+    image.addEventListener('error', () => settleImage(false), { once: true });
+    if (image.complete) settleImage(image.naturalWidth > 0);
+  } else {
+    settleImage(false);
+  }
+  return { markGameReady() { gameReady = true; tryRemove(); } };
+})();
+</script>
+<script>
+// MEGU environment selection. localhost/file:// uses the development Supabase
+// project; deployed hosts (including GitHub Pages) use production.
+// Replace the four placeholders with the URL and anon/publishable key from
+// the matching Supabase project. Never put a service-role key in this file.
+window.MEGU_ENVIRONMENT = (() => {
+  const host = String(location.hostname || '').toLowerCase();
+  const isPrivateIPv4 = (() => {
+    const parts = host.split('.').map(Number);
+    if (parts.length !== 4 || parts.some(n => !Number.isInteger(n) || n < 0 || n > 255)) return false;
+    return parts[0] === 10 || parts[0] === 127 ||
+      (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) ||
+      (parts[0] === 192 && parts[1] === 168);
+  })();
+  const isLocalHost = host === 'localhost' || host === '::1' || host.endsWith('.local') || isPrivateIPv4;
+  return location.protocol === 'file:' || isLocalHost ? 'development' : 'production';
+})();
+window.MEGU_BACKEND_CONFIGS = Object.freeze({
+  development: Object.freeze({
+    supabaseUrl: 'https://dpztbnkuuforlsotbgdb.supabase.co',
+    supabaseAnonKey: 'sb_publishable_BrKE75EUYWiOXUslbvVsKg_2xg1fNfX'
+  }),
+  production: Object.freeze({
+    supabaseUrl: 'https://giblopkvmusjmvtbfhbe2.supabase.co',
+    supabaseAnonKey: 'sb_publishable_OWyCDAlMwLeWump7MBiHdA_8f9Ve0a4'
+  })
+});
+window.MEGU_BACKEND_CONFIG = window.MEGU_BACKEND_CONFIGS[window.MEGU_ENVIRONMENT];
+window.MEGU_BACKEND_CONFIGURED =
+  /^https:\/\/[^/]+\.supabase\.co$/i.test(window.MEGU_BACKEND_CONFIG.supabaseUrl) &&
+  !/YOUR[-_]/i.test(window.MEGU_BACKEND_CONFIG.supabaseUrl + window.MEGU_BACKEND_CONFIG.supabaseAnonKey);
+
+// Environment selection remains automatic; the development badge is hidden.
+if (window.MEGU_ENVIRONMENT === 'development') {
+  console.info('[MEGU] Development environment selected.', {
+    backendConfigured: window.MEGU_BACKEND_CONFIGURED
+  });
+} else {
+  console.info('[MEGU] Production environment selected.');
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.80.1/phaser.min.js"></script>
+<script>
+// Force fresh asset URLs for every page/game launch. Phaser keeps its own
+// in-memory textures while a page is running, but this unique URL token makes
+// the browser request current PNG/JSON/audio files instead of reusing HTTP cache.
+(() => {
+  const launchToken = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const withFreshAssetURL = value => {
+    if (typeof value !== 'string' || !value || /^(data:|blob:|javascript:)/i.test(value) || /[?&]__megu_reload=/.test(value)) return value;
+    // Leave external libraries and non-local URLs alone; apply to game assets.
+    if (/^(https?:)?\/\//i.test(value) && !/^(https?:)?\/\/(localhost|127\.0\.0\.1)(:\d+)?\//i.test(value)) return value;
+    const hashAt = value.indexOf('#');
+    const hash = hashAt >= 0 ? value.slice(hashAt) : '';
+    const withoutHash = hashAt >= 0 ? value.slice(0, hashAt) : value;
+    const separator = withoutHash.includes('?') ? '&' : '?';
+    return `${withoutHash}${separator}__megu_reload=${encodeURIComponent(launchToken)}${hash}`;
+  };
+
+  // Intercept Phaser's central file queue so direct and dynamically requested
+  // atlases, spritesheets, JSON, images and audio all get the same cache-buster.
+  const loaderProto = Phaser.Loader.LoaderPlugin.prototype;
+  if (!loaderProto.__meguFreshAssetPatch && typeof loaderProto.addFile === 'function') {
+    const originalAddFile = loaderProto.addFile;
+    const patchFile = (file, seen = new Set()) => {
+      if (!file || (typeof file !== 'object' && typeof file !== 'function') || seen.has(file)) return;
+      seen.add(file);
+      ['url', 'textureURL', 'imageURL', 'atlasURL', 'normalMapURL'].forEach(prop => {
+        if (typeof file[prop] === 'string') file[prop] = withFreshAssetURL(file[prop]);
+      });
+      if (Array.isArray(file.files)) file.files.forEach(child => patchFile(child, seen));
+      if (file.config && typeof file.config === 'object') {
+        ['url', 'textureURL', 'imageURL', 'atlasURL', 'normalMapURL'].forEach(prop => {
+          if (typeof file.config[prop] === 'string') file.config[prop] = withFreshAssetURL(file.config[prop]);
+        });
+      }
+    };
+    loaderProto.addFile = function (file) {
+      if (Array.isArray(file)) file.forEach(item => patchFile(item));
+      else patchFile(file);
+      return originalAddFile.apply(this, arguments);
+    };
+    Object.defineProperty(loaderProto, '__meguFreshAssetPatch', { value: true });
+  }
+
+  // The splash is outside Phaser's loader, so give it a fresh URL too.
+  const splash = document.getElementById('initial-splash-image');
+  if (splash) splash.src = withFreshAssetURL(splash.getAttribute('src'));
+})();
+</script>
+<script>
+// Load local classic scripts in their original order, using a new URL on each
+// launch. This prevents mobile HTTP caches from serving stale game JavaScript.
+// Keep boot.js last: it starts the game after all classes are registered.
+(() => {
+  const launchToken = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const scripts = [
+    "js/systems/character/MeguRenderer.js",
+    "js/scenes/MeguSumoData.js",
+    "js/systems/home/MeguHomeGeometry.js",
+    "js/core/MeguGameData.js",
+    "js/game.js",
+    "js/systems/home/MeguHomeSetup.js",
+    "js/systems/home/MeguHomeUpdate.js",
+    "js/systems/progression/MeguStatsInteractions.js",
+    "js/systems/world/MeguBackgrounds.js",
+    "js/systems/audio/MeguAudio.js",
+    "js/core/MeguInput.js",
+    "js/data/MeguCatalogData.js",
+    "js/systems/assets/MeguPreload.js",
+    "js/data/MeguTextLayout.js",
+    "js/systems/care/MeguHygiene.js",
+    "js/systems/assets/MeguAssetLifecycle.js",
+    "js/systems/inventory/MeguStackedInventory.js",
+    "js/ui/MeguScrollableMenu.js",
+    "js/systems/character/MeguAccessories.js",
+    "js/systems/character/MeguEvolution.js",
+    "js/systems/social/MeguFriendPets.js",
+    "js/systems/progression/MeguStats.js",
+    "js/systems/social/MeguVisitorInteractions.js",
+    "js/ui/MeguUiLifecycle.js",
+    "js/systems/care/MeguCareCharging.js",
+    "js/systems/care/MeguDance.js",
+    "js/systems/care/MeguBallBalance.js",
+    "js/systems/care/MeguBarbell.js",
+    "js/systems/care/MeguPunchingBag.js",
+    "js/systems/care/MeguTreadmill.js",
+    "js/systems/care/MeguTrampoline.js",
+    "js/systems/care/MeguGym.js",
+    "js/systems/home/MeguHouseLayouts.js",
+    "js/ui/MeguMenuLayouts.js",
+    "js/ui/MeguFooterMenus.js",
+    "js/systems/adventure/MeguAdventure.js",
+    "js/systems/furniture/MeguFurnitureInventory.js",
+    "js/systems/debug/MeguDebugTools.js",
+    "js/systems/care/MeguFood.js",
+    "js/systems/furniture/MeguFurnitureEditing.js",
+    "js/ui/MeguCharacterMenu.js",
+    "js/systems/character/MeguPettingMessages.js",
+    "js/systems/accounts/MeguAccounts.js",
+    "js/scenes/SumoMinigame.js",
+    "js/scenes/BallTossMinigame.js",
+    "js/scenes/JumpRopeMinigame.js",
+    "js/scenes/JockeyMinigame.js",
+    "js/scenes/AdventureIntroScene.js",
+    "js/scenes/AdventureMinigame.js",
+    "js/scenes/WalkMinigame.js",
+    "js/scenes/TakePhotoMode.js",
+    "js/systems/home/MeguHitboxDebug.js",
+    "js/boot.js"
+];
+  for (const path of scripts) {
+    const url = `${path}?__megu_js_reload=${encodeURIComponent(launchToken)}`;
+    document.write(`<script src="${url}"><\/script>`);
+  }
+})();
+</script>
+<!-- MEGU memory diagnostics: development-only overlay, no gameplay changes. -->
+<script>
+(() => {
+  'use strict';
+  const formatBytes = value => {
+    if (!Number.isFinite(value)) return 'n/a';
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let n = value, i = 0;
+    while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+    return `${n.toFixed(i === 0 ? 0 : 2)} ${units[i]}`;
+  };
+  const panel = document.createElement('pre');
+  panel.id = 'megu-memory-debug-panel';
+  Object.assign(panel.style, {
+    position: 'fixed', right: '8px', top: '8px', zIndex: '200000',
+    display: 'none', width: 'min(440px, calc(100vw - 16px))', maxHeight: '65vh',
+    overflow: 'auto', margin: '0', padding: '10px 12px', boxSizing: 'border-box',
+    border: '1px solid #8fa6c8', borderRadius: '8px', background: 'rgba(8,14,25,.92)',
+    color: '#d9f2ff', font: '11px/1.45 Consolas, monospace', whiteSpace: 'pre-wrap',
+    pointerEvents: 'none', textShadow: 'none'
+  });
+  panel.textContent = 'MEGU memory diagnostics\nWaiting for Phaser…\nPress F3 to show/hide';
+  document.body.appendChild(panel);
+
+  const collect = () => {
+    const game = window.game;
+    if (!game || !game.scene || !game.textures) return { ready: false };
+    const allScenes = game.scene.scenes || [];
+    const referencedTextures = new Map();
+    let activeObjects = 0, allObjects = 0;
+    const visit = (obj, sceneKey, active) => {
+      if (!obj) return;
+      allObjects++;
+      if (active) activeObjects++;
+      if (obj.texture && obj.texture.key) {
+        const key = obj.texture.key;
+        if (!referencedTextures.has(key)) referencedTextures.set(key, { active: 0, total: 0, scenes: new Set() });
+        const record = referencedTextures.get(key);
+        record.total++;
+        if (active) record.active++;
+        record.scenes.add(sceneKey);
+      }
+      if (typeof obj.getChildren === 'function') {
+        const children = obj.getChildren();
+        if (Array.isArray(children)) children.forEach(child => visit(child, sceneKey, active));
+      }
+    };
+    const activeSceneNames = [];
+    allScenes.forEach(scene => {
+      const active = !!(scene.sys && scene.sys.isActive());
+      if (active) activeSceneNames.push(scene.scene.key);
+      const list = scene.children && scene.children.getChildren ? scene.children.getChildren() : [];
+      list.forEach(obj => visit(obj, scene.scene.key, active));
+    });
+
+    const textureEntries = Object.values(game.textures.list || {});
+    let estimatedTextureBytes = 0, textureSources = 0;
+    const textureRows = [];
+    textureEntries.forEach(texture => {
+      if (!texture || texture.key === '__DEFAULT' || texture.key === '__MISSING') return;
+      let bytes = 0, dimensions = [];
+      const sources = texture.source || [];
+      sources.forEach(source => {
+        const image = source && (source.image || source);
+        const w = image && (image.naturalWidth || image.videoWidth || image.width || image.displayWidth);
+        const h = image && (image.naturalHeight || image.videoHeight || image.height || image.displayHeight);
+        if (w > 0 && h > 0) { bytes += w * h * 4; dimensions.push(`${w}x${h}`); textureSources++; }
+      });
+      estimatedTextureBytes += bytes;
+      const refs = referencedTextures.get(texture.key);
+      textureRows.push({ key: texture.key, bytes, dimensions: dimensions.join(','), refs: refs ? refs.total : 0, activeRefs: refs ? refs.active : 0 });
+    });
+    const orphanCandidates = textureRows.filter(row => row.refs === 0 && row.bytes > 0).sort((a,b) => b.bytes-a.bytes);
+    const textureTop = textureRows.slice().sort((a,b) => b.bytes-a.bytes).slice(0, 12);
+
+    let audioKeys = [];
+    try {
+      const entries = game.cache && game.cache.audio && game.cache.audio.entries && game.cache.audio.entries.entries;
+      if (entries && typeof entries.keys === 'function') audioKeys = Array.from(entries.keys());
+    } catch (_) {}
+    const sounds = game.sound && Array.isArray(game.sound.sounds) ? game.sound.sounds : [];
+    const activeSounds = sounds.filter(sound => sound && (sound.isPlaying || sound.isPaused)).length;
+    const canvas = game.canvas;
+    const canvasBytes = canvas ? canvas.width * canvas.height * 4 : 0;
+    const perf = performance.memory || null;
+    return {
+      ready: true,
+      time: new Date().toLocaleTimeString(),
+      heapUsed: perf ? perf.usedJSHeapSize : null,
+      heapTotal: perf ? perf.totalJSHeapSize : null,
+      heapLimit: perf ? perf.jsHeapSizeLimit : null,
+      textureCount: textureRows.length,
+      textureBytes: estimatedTextureBytes,
+      textureSources,
+      orphanCandidates,
+      textureTop,
+      audioCount: audioKeys.length,
+      audioKeys,
+      soundInstances: sounds.length,
+      activeSounds,
+      activeSceneNames,
+      sceneCount: allScenes.length,
+      activeObjects,
+      allObjects,
+      canvasBytes,
+      canvasWidth: canvas ? canvas.width : 0,
+      canvasHeight: canvas ? canvas.height : 0
+    };
+  };
+
+  const render = data => {
+    if (!data.ready) { panel.textContent = 'MEGU memory diagnostics\nWaiting for Phaser…\nPress F3 to show/hide'; return; }
+    const heap = data.heapUsed == null ? 'unavailable (browser does not expose performance.memory)' : `${formatBytes(data.heapUsed)} used / ${formatBytes(data.heapTotal)} allocated / ${formatBytes(data.heapLimit)} limit`;
+    const lines = [
+      `MEGU MEMORY DIAGNOSTICS  ${data.time}  (F3 toggle, console: MEGU_MEMORY_DEBUG.dump())`,
+      `JS heap: ${heap}`,
+      `Phaser textures: ${data.textureCount} | decoded RGBA estimate: ${formatBytes(data.textureBytes)} (${data.textureSources} source images)`,
+      `Canvas: ${data.canvasWidth}x${data.canvasHeight} | ${formatBytes(data.canvasBytes)} RGBA buffer estimate`,
+      `Audio cache: ${data.audioCount} files | sound instances: ${data.soundInstances} (${data.activeSounds} playing/paused)`,
+      `Scenes active: ${data.activeSceneNames.join(', ') || 'none'} | registered scenes: ${data.sceneCount}`,
+      `Display objects: ${data.activeObjects} active-scene / ${data.allObjects} all-scenes`,
+      `Unreferenced texture candidates: ${data.orphanCandidates.length} | ${formatBytes(data.orphanCandidates.reduce((n,x)=>n+x.bytes,0))}`,
+      'Largest cached textures:'
+    ];
+    data.textureTop.forEach(row => lines.push(`  ${row.key}: ${row.dimensions || '?'} ${formatBytes(row.bytes)} | refs ${row.refs} (active ${row.activeRefs})`));
+    if (data.orphanCandidates.length) {
+      lines.push('Possible cache leftovers (not auto-deleted; may be intentionally preloaded):');
+      data.orphanCandidates.slice(0, 12).forEach(row => lines.push(`  ${row.key}: ${row.dimensions || '?'} ${formatBytes(row.bytes)}`));
+    }
+    lines.push('Note: texture figures are decoded RGBA estimates, not exact GPU/RAM usage. Audio decoded memory is browser-managed and not measured.');
+    panel.textContent = lines.join('\n');
+  };
+
+  let lastSnapshot = null;
+  const snapshot = () => { lastSnapshot = collect(); render(lastSnapshot); return lastSnapshot; };
+  const dump = () => {
+    const data = snapshot();
+    console.group('[MEGU memory diagnostics]');
+    console.log('Snapshot:', data);
+    if (data.ready) {
+      console.table(data.textureTop);
+      console.warn('Unreferenced texture candidates (review before removal; some may be intentionally cached):', data.orphanCandidates);
+      console.log('Audio cache keys:', data.audioKeys);
+    }
+    console.groupEnd();
+    return data;
+  };
+  window.MEGU_MEMORY_DEBUG = { snapshot, dump, show: () => { panel.style.display = 'block'; snapshot(); }, hide: () => { panel.style.display = 'none'; }, get lastSnapshot() { return lastSnapshot; } };
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'F3') {
+      event.preventDefault();
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+      if (panel.style.display !== 'none') snapshot();
+    }
+  });
+  setInterval(() => { if (panel.style.display !== 'none') snapshot(); }, 5000);
+  setTimeout(() => { if (panel.style.display !== 'none') snapshot(); }, 1000);
+  console.info('[MEGU] Memory diagnostics loaded. Press F3 or call MEGU_MEMORY_DEBUG.dump().');
+})();
+</script>
+</body>
+</html>

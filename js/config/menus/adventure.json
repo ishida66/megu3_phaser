@@ -1,0 +1,15 @@
+{
+  "description": "Adventure scene fixed-camera close button. Coordinates are top-left pixels. Optional hitboxX/Y/Width/Height control the clickable area.",
+  "buttons": {
+    "quit": {
+      "x": 544,
+      "y": 552,
+      "width": 92,
+      "height": 76,
+      "hitboxX": 544,
+      "hitboxY": 552,
+      "hitboxWidth": 92,
+      "hitboxHeight": 76
+    }
+  }
+}

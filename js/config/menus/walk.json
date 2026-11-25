@@ -1,0 +1,23 @@
+{
+  "description": "Walk direction arrows. x/y are top-left artwork coordinates. Optional hitboxX/Y/Width/Height independently control click areas.",
+  "buttons": {
+    "left": {
+      "x": 171,
+      "y": 656,
+      "width": 68,
+      "height": 68
+    },
+    "right": {
+      "x": 401,
+      "y": 656,
+      "width": 68,
+      "height": 68
+    },
+    "up": {
+      "x": 286,
+      "y": 551,
+      "width": 68,
+      "height": 68
+    }
+  }
+}

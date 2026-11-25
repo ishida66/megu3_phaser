@@ -1,0 +1,33 @@
+{
+  "description": "Only interactive buttons and selectable hitboxes are configurable. Coordinates use the same anchors as the original menu. Other UI geometry stays in JavaScript.",
+  "buttons": {
+    "gift_food": {
+      "x": 180,
+      "y": 759,
+      "width": 110,
+      "height": 42
+    },
+    "gift_furniture": {
+      "x": 320,
+      "y": 759,
+      "width": 110,
+      "height": 42
+    },
+    "gift_special": {
+      "x": 460,
+      "y": 759,
+      "width": 110,
+      "height": 42
+    },
+    "quit": {
+      "x": 560,
+      "y": 558,
+      "width": 64,
+      "height": 64,
+      "hitboxX": 554,
+      "hitboxY": 552,
+      "hitboxWidth": 76,
+      "hitboxHeight": 76
+    }
+  }
+}

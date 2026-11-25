@@ -1,0 +1,41 @@
+{
+  "description": "Only interactive buttons and selectable hitboxes are configurable. Coordinates use the same anchors as the original menu. Other UI geometry stays in JavaScript.",
+  "buttons": {
+    "row_1_select": {
+      "x": 32,
+      "y": 178,
+      "width": 578,
+      "height": 118
+    },
+    "row_2_select": {
+      "x": 32,
+      "y": 302,
+      "width": 578,
+      "height": 118
+    },
+    "row_3_select": {
+      "x": 32,
+      "y": 426,
+      "width": 578,
+      "height": 118
+    },
+    "confirm": {
+      "x": 549,
+      "y": 633,
+      "width": 59,
+      "height": 49
+    },
+    "cancel": {
+      "x": 478,
+      "y": 633,
+      "width": 65,
+      "height": 49
+    },
+    "remove_all": {
+      "x": 320,
+      "y": 590,
+      "width": 142,
+      "height": 38
+    }
+  }
+}

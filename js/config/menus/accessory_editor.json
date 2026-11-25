@@ -1,0 +1,101 @@
+{
+  "description": "Only interactive buttons and selectable hitboxes are configurable. Coordinates use the same anchors as the original menu. Other UI geometry stays in JavaScript.",
+  "buttons": {
+    "previous_pose": {
+      "y": 270
+    },
+    "next_pose": {
+      "y": 270
+    },
+    "size_decrease": {
+      "x": 130,
+      "y": 480,
+      "width": 104,
+      "height": 40,
+      "hitboxX": 130,
+      "hitboxY": 480,
+      "hitboxWidth": 104,
+      "hitboxHeight": 40
+    },
+    "size_increase": {
+      "x": 250,
+      "y": 480,
+      "width": 104,
+      "height": 40,
+      "hitboxX": 250,
+      "hitboxY": 480,
+      "hitboxWidth": 104,
+      "hitboxHeight": 40
+    },
+    "rotation_decrease": {
+      "x": 390,
+      "y": 480,
+      "width": 104,
+      "height": 40,
+      "hitboxX": 390,
+      "hitboxY": 480,
+      "hitboxWidth": 104,
+      "hitboxHeight": 40
+    },
+    "rotation_increase": {
+      "x": 510,
+      "y": 480,
+      "width": 104,
+      "height": 40,
+      "hitboxX": 510,
+      "hitboxY": 480,
+      "hitboxWidth": 104,
+      "hitboxHeight": 40
+    },
+    "mirror": {
+      "x": 210,
+      "y": 525,
+      "width": 112,
+      "height": 40,
+      "hitboxX": 210,
+      "hitboxY": 525,
+      "hitboxWidth": 112,
+      "hitboxHeight": 40
+    },
+    "flip": {
+      "x": 430,
+      "y": 525,
+      "width": 112,
+      "height": 40,
+      "hitboxX": 430,
+      "hitboxY": 525,
+      "hitboxWidth": 112,
+      "hitboxHeight": 40
+    },
+    "copy_placement": {
+      "x": 320,
+      "y": 570,
+      "width": 300,
+      "height": 40,
+      "hitboxX": 320,
+      "hitboxY": 570,
+      "hitboxWidth": 300,
+      "hitboxHeight": 40
+    },
+    "confirm": {
+      "x": 425,
+      "y": 615,
+      "width": 150,
+      "height": 40,
+      "hitboxX": 425,
+      "hitboxY": 615,
+      "hitboxWidth": 150,
+      "hitboxHeight": 40
+    },
+    "quit": {
+      "x": 215,
+      "y": 615,
+      "width": 150,
+      "height": 40,
+      "hitboxX": 215,
+      "hitboxY": 615,
+      "hitboxWidth": 150,
+      "hitboxHeight": 40
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "description": "Sumo minigame controls. Coordinates use top-left origin. Set optional hitboxX, hitboxY, hitboxWidth, hitboxHeight to override clickable areas independently. Opponent cards use keys matching rank option categories.",
+  "buttons": {
+    "quit": {
+      "x": 544,
+      "y": 552,
+      "width": 92,
+      "height": 76,
+      "hitboxX": 544,
+      "hitboxY": 552,
+      "hitboxWidth": 92,
+      "hitboxHeight": 76
+    },
+    "move_rock": {
+      "x": 128.0,
+      "y": 564.0,
+      "width": 104,
+      "height": 52
+    },
+    "move_paper": {
+      "x": 268.0,
+      "y": 564.0,
+      "width": 104,
+      "height": 52
+    },
+    "move_scissors": {
+      "x": 408.0,
+      "y": 564.0,
+      "width": 104,
+      "height": 52
+    },
+    "debug_rock": {
+      "x": 188.0,
+      "y": 522.0,
+      "width": 74,
+      "height": 26
+    },
+    "debug_paper": {
+      "x": 283.0,
+      "y": 522.0,
+      "width": 74,
+      "height": 26
+    },
+    "debug_scissors": {
+      "x": 378.0,
+      "y": 522.0,
+      "width": 74,
+      "height": 26
+    },
+    "opponent_panel": {
+      "x": 25.0,
+      "y": 190.0,
+      "width": 590,
+      "height": 250
+    },
+    "dai_yokozuna_card": {
+      "x": 494.0,
+      "y": 274.0,
+      "width": 132,
+      "height": 112
+    },
+    "promotion_card": {
+      "x": 185.0,
+      "y": 274.0,
+      "width": 270,
+      "height": 112
+    },
+    "elixir_yes": {
+      "x": 185.0,
+      "y": 346.0,
+      "width": 120,
+      "height": 38
+    },
+    "elixir_no": {
+      "x": 335.0,
+      "y": 346.0,
+      "width": 120,
+      "height": 38
+    },
+    "opponent_ambitious": {
+      "x": 14,
+      "y": 274,
+      "width": 132,
+      "height": 112
+    },
+    "opponent_even": {
+      "x": 174,
+      "y": 274,
+      "width": 132,
+      "height": 112
+    },
+    "opponent_favorable": {
+      "x": 334,
+      "y": 274,
+      "width": 132,
+      "height": 112
+    }
+  }
+}

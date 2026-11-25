@@ -1,0 +1,71 @@
+{
+  "description": "Coordinates in game canvas pixels; x/y are top-left for hotspots and center for Gym buttons.",
+  "buttons": {
+    "dance": {
+      "x": 112,
+      "y": 153,
+      "width": 176,
+      "height": 36
+    },
+    "ball_balance": {
+      "x": 528,
+      "y": 153,
+      "width": 176,
+      "height": 36
+    },
+    "lift_barbell": {
+      "x": 112,
+      "y": 205,
+      "width": 176,
+      "height": 36
+    },
+    "punching_bag": {
+      "x": 528,
+      "y": 205,
+      "width": 176,
+      "height": 36
+    },
+    "treadmill": {
+      "x": 112,
+      "y": 257,
+      "width": 176,
+      "height": 36
+    },
+    "trampoline": {
+      "x": 528,
+      "y": 257,
+      "width": 176,
+      "height": 36
+    },
+    "train_power": {
+      "x": 80,
+      "y": 94,
+      "width": 142,
+      "height": 30
+    },
+    "train_agility": {
+      "x": 240,
+      "y": 94,
+      "width": 142,
+      "height": 30
+    },
+    "train_technique": {
+      "x": 400,
+      "y": 94,
+      "width": 142,
+      "height": 30
+    },
+    "train_endurance": {
+      "x": 560,
+      "y": 94,
+      "width": 142,
+      "height": 30
+    },
+    "close": {
+      "x": 590,
+      "y": 590,
+      "width": 92,
+      "height": 76
+    }
+  }
+}

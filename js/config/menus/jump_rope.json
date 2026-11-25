@@ -1,0 +1,15 @@
+{
+  "description": "Jump Rope controls. Coordinates are top-left pixel positions. Optional hitboxX/Y/Width/Height override the clickable area independently.",
+  "buttons": {
+    "quit": {
+      "x": 544,
+      "y": 552,
+      "width": 92,
+      "height": 76,
+      "hitboxX": 544,
+      "hitboxY": 552,
+      "hitboxWidth": 92,
+      "hitboxHeight": 76
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "description": "Button coordinates in canvas pixels. For hitbox-only controls, x/y are top-left. Change hitboxX/Y/Width/Height to override the clickable region independently.",
+  "buttons": {
+    "care": {
+      "x": 8,
+      "y": 850,
+      "width": 112,
+      "height": 92
+    },
+    "store": {
+      "x": 256,
+      "y": 850,
+      "width": 112,
+      "height": 92
+    },
+    "outing": {
+      "x": 131,
+      "y": 850,
+      "width": 112,
+      "height": 92
+    },
+    "options": {
+      "x": 520,
+      "y": 850,
+      "width": 112,
+      "height": 92
+    },
+    "megu": {
+      "x": 380,
+      "y": 850,
+      "width": 113,
+      "height": 92
+    }
+  }
+}

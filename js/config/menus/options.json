@@ -1,0 +1,53 @@
+{
+  "description": "Settings artwork coordinates, top-left anchored 640x840.",
+  "buttons": {
+    "bgm_volume": {
+      "x": 280,
+      "y": 160,
+      "width": 180,
+      "height": 24
+    },
+    "sfx_volume": {
+      "x": 280,
+      "y": 190,
+      "width": 180,
+      "height": 24
+    },
+    "mute_all": {
+      "x": 473,
+      "y": 173,
+      "width": 90,
+      "height": 28
+    },
+    "hide_account_from_friends": {
+      "x": 281,
+      "y": 223,
+      "width": 18,
+      "height": 18
+    },
+    "export_account_backup": {
+      "x": 117,
+      "y": 253,
+      "width": 270,
+      "height": 80
+    },
+    "restore_account_backup": {
+      "x": 117,
+      "y": 343,
+      "width": 270,
+      "height": 80
+    },
+    "settings_log_out": {
+      "x": 179,
+      "y": 433,
+      "width": 208,
+      "height": 80
+    },
+    "settings_quit": {
+      "x": 522,
+      "y": 728,
+      "width": 49,
+      "height": 37
+    }
+  }
+}

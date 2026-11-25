@@ -1,0 +1,35 @@
+{
+  "description": "Coordinates in game canvas pixels; x/y are top-left for hotspots and center for Gym buttons.",
+  "buttons": {
+    "charging_room": {
+      "x": 68,
+      "y": 143,
+      "width": 85,
+      "height": 85
+    },
+    "elixir": {
+      "x": 68,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "voltamin": {
+      "x": 208,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "voltamin_lite": {
+      "x": 348,
+      "y": 274,
+      "width": 85,
+      "height": 85
+    },
+    "close": {
+      "x": 474,
+      "y": 690,
+      "width": 98,
+      "height": 74
+    }
+  }
+}
