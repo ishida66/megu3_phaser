@@ -282,8 +282,8 @@ async function loadMeguCloudData(user, fallbackPetName = '') {
     .select('username, pet_name, save_data').eq('user_id', user.id).maybeSingle();
   if (error) throw error;
   if (data && data.save_data && typeof data.save_data === 'object') {
-    GAME_ATTRIBUTES_IS_NEW_PLAYER = false;
-    GAME_ATTRIBUTES = { ...DEFAULT_GAME_ATTRIBUTES, ...data.save_data };
+    GAME_ATTRIBUTES_IS_NEW_PLAYER = data.save_data.initialSatietyPending === true;
+    GAME_ATTRIBUTES = { ...JSON.parse(JSON.stringify(DEFAULT_GAME_ATTRIBUTES)), ...data.save_data };
     // Migrate the former single-accessory save into the multi-accessory format.
     if (!Array.isArray(GAME_ATTRIBUTES.accessories) || (!GAME_ATTRIBUTES.accessories.length && GAME_ATTRIBUTES.accessory && GAME_ATTRIBUTES.accessory.id)) {
       GAME_ATTRIBUTES.accessories = GAME_ATTRIBUTES.accessory && GAME_ATTRIBUTES.accessory.id
@@ -297,7 +297,9 @@ async function loadMeguCloudData(user, fallbackPetName = '') {
     persistGameAttributes();
   } else {
     GAME_ATTRIBUTES_IS_NEW_PLAYER = true;
-    GAME_ATTRIBUTES = { ...DEFAULT_GAME_ATTRIBUTES };
+    GAME_ATTRIBUTES = JSON.parse(JSON.stringify(DEFAULT_GAME_ATTRIBUTES));
+    GAME_ATTRIBUTES.initialSatietyPending = true;
+    GAME_ATTRIBUTES.birthday = localCalendarDay();
     GAME_ATTRIBUTES.userName = String(user.user_metadata?.username || GAME_ATTRIBUTES.userName || '');
     GAME_ATTRIBUTES.petName = String(fallbackPetName || user.user_metadata?.pet_name || GAME_ATTRIBUTES.petName || '');
     meguCloudReady = true;

@@ -41,6 +41,11 @@ const DEFAULT_GAME_ATTRIBUTES = {
   satiety: 500, max_satiety: 1000, hygiene: 100, hygieneLastUpdatedAt: '', clean: 100, cleanLastUpdatedAt: '', friendship: 999999, max_friendship: 999999,
   satisfaction: 'planting tomatoes.', honor: 0, honorUnlockedIndex: 0, honorSelectedIndex: 0, honorCompetitionBonus: 0, sumoHonorHighestRankIndex: 0, sumoHonorTopClassAwarded: false, sumoHonorDaiYokozunaAwarded: false, jockeyHonorClasses: [], jockeyHonorTopClassAwarded: false, jockeyHonorBossAwarded: false, ballTossMaxRecord: 0, jumpRopeMaxRecord: 0, hobbyNextChangeAt: 0
 };
+function isMeguLowSatiety(attributes = GAME_ATTRIBUTES) {
+  const satiety = Number(attributes.satiety);
+  const maximum = Number(attributes.max_satiety);
+  return Number.isFinite(satiety) && Number.isFinite(maximum) && maximum > 0 && satiety < maximum * 0.1;
+}
 function loadGameAttributes() {
   try {
     const raw = localStorage.getItem(GAME_ATTRIBUTES_KEY);

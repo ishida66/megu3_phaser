@@ -370,7 +370,7 @@ Object.assign(Main.prototype, {
     const lowSatietyFrame = atlasKey + '_9-2x';
     const incapacitatedFrame = lowSatietyFrame;
     const lowSatietyIdle = !healthIncapacitated && !moving && !clicked && !foodPose && !idleStillActive &&
-      Number(GAME_ATTRIBUTES.satiety) < 100 && this.textures.exists(atlasKey) && this.textures.get(atlasKey).has(lowSatietyFrame);
+      isMeguLowSatiety() && this.textures.exists(atlasKey) && this.textures.get(atlasKey).has(lowSatietyFrame);
     const frameA = moving ? atlasKey + '_3-2x' : atlasKey + '_5-2x';
     const frameB = moving ? atlasKey + '_4-2x' : atlasKey + '_6-2x';
     // Walking frames toggle only when the character's position is updated.

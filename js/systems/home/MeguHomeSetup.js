@@ -6,7 +6,7 @@ Object.assign(Main.prototype, {
       // A starving MEGU reacts with SE_bad whenever the Home scene is resumed or woken.
       // Listen to both lifecycle paths because minigames use both pause/resume and sleep/wake.
       this._playStarvingReturnSfx = () => {
-        if (Number(GAME_ATTRIBUTES.satiety) >= 100) return;
+        if (!isMeguLowSatiety()) return;
         if (!this.cache.audio.exists('bad-sfx')) return;
         try { this.sound.play('bad-sfx', { volume: Number.isFinite(Number(this.sfxVolume)) ? this.sfxVolume : 0.7 }); }
         catch (error) { console.warn('[MEGU] Could not play SE_bad.wav on Home return:', error); }

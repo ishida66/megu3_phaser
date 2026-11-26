@@ -267,9 +267,10 @@ Object.assign(Main.prototype, {
       // Max satiety scales with the active MEGU's size and hunger stat, plus level squared.
       const maxSatiety = Math.round(characterSize * 100 + Math.pow(currentLevel, 2) * hungry / 8);
       GAME_ATTRIBUTES.max_satiety = maxSatiety;
-      if (GAME_ATTRIBUTES_IS_NEW_PLAYER) {
+      if (GAME_ATTRIBUTES_IS_NEW_PLAYER || GAME_ATTRIBUTES.initialSatietyPending === true) {
         GAME_ATTRIBUTES.satiety = Math.round(maxSatiety * 0.5);
         GAME_ATTRIBUTES_IS_NEW_PLAYER = false;
+        delete GAME_ATTRIBUTES.initialSatietyPending;
         persistGameAttributes();
       } else {
         GAME_ATTRIBUTES.satiety = Math.round(Phaser.Math.Clamp(Number(GAME_ATTRIBUTES.satiety) || 0, 0, maxSatiety));
